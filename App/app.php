@@ -11,67 +11,33 @@
 
     $app = new Silex\Application();
 
-    //Route and Controller
-    $app->get("/", function() {
+    //Twig Path
+    $app->register(new Silex\Provider\TwigServiceProvider(), array(
+      'twig.path' => __DIR__.'/../views'
+    ));
 
-      $output = "";
+    //Route and Controller
+    $app->get("/", function() use ($app) {
 
       $all_tasks = Task::getAll();
 
-      if(!empty($all_tasks)) {
-        $output .= "<h1>To Do List</h1>
-            <p>Here are all your tasks:</p>
-            <ul>";
+      return $app['twig']->render('tasks.html.twig', array('tasks' => $all_tasks));
 
-          //foreach loop
-          foreach ($all_tasks as $task) {
-          $output .= "<p>" . $task->getDescription() . "</p>";
-      }
-      $output .= "</ul>";
-
-      }
-
-
-      //Output HTTP POST
-      $output .= "</ul>
-        <form action = '/tasks' method='post'>
-          <label for='description'>Task Description</label>
-          <input id='description' name='description' type='text'>
-
-          <button type='submit'>Add task</button>
-        </form>
-        ";
-
-
-        $output .= "
-        <form action='/delete_tasks' method='post'>
-        <button type='submit'>Delete it all!</button>
-        </form>
-        ";
-
-      return $output;
     });
 
     //tasks POST
-    $app->post("/tasks", function() {
+    $app->post("/tasks", function() use ($app) {
       $task = new Task($_POST['description']);
       $task->save();
-      return "
-          <h1>You created a Task! Huuzzah!</h1>
-          <p>" . $task->getDescription() ."</p>
-          <p><a href='/'>View your list of things to do.</a></p>
-      ";
-
-
+      return $app['twig']->render('create_task.html.twig', array('newtask' => $task));
 
     });
     //tasks POST delete
-    $app->post("/delete_tasks", function() {
+    $app->post("/delete_tasks", function() use ($app) {
 
         Task::deleteAll();
 
-        return "<h1>List is Cleared! Take it easy the rest of the day!</h1>
-        <p><a href='/'>Home</a></p>";
+        return $app['twig']->render('delete_tasks.html.twig');
     });
 
     return $app;
