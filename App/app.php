@@ -2,14 +2,13 @@
     require_once __DIR__."/../vendor/autoload.php";
     require_once __DIR__."/../src/Task.php";
 
-    //_SESSION - Stores cookies
-    session_start();
-
-    if (empty($_SESSION['list_of_tasks'])) {
-      $_SESSION['list_of_tasks'] = array();
-    }
-
     $app = new Silex\Application();
+
+    //SQL Server
+    $server = 'mysql:host=localhost;dbname=to_do';
+    $user = 'root';
+    $password = 'root';
+    $DB = new PDO($server, $username, $password);
 
     //Twig Path
     $app->register(new Silex\Provider\TwigServiceProvider(), array(
