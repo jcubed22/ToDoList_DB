@@ -1,6 +1,8 @@
 <?php
-  class Task
-  {
+    
+
+    class Task
+    {
     private $description;
 
     //Constructor
@@ -39,5 +41,5 @@
         $_SESSION['list_of_tasks'] = array();
     }
 
-  }
+    }
   ?>
