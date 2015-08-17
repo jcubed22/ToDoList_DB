@@ -1,31 +1,33 @@
 <html>
-<head>
-  <title>To Do List</title>
-</head>
-<body>
-  <h1>To Do List</h1>
+    <head>
+        <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css'>
+      <title>To Do List</title>
+    </head>
+    <body>
+        <div class="container">
+          <h1>To Do List</h1>
 
-  {% if tasks is not empty %}
-    <p>Here are all your tasks:</p>
-    <ul>
-        {% for task in tasks %}
-          <li>{{ task.getDescription }}</li>
-        {% endfor %}
-    </ul>
-  {% endif %}
+          {% if tasks is not empty %}
+            <p>Here are all your tasks:</p>
+            <ul>
+                {% for task in tasks %}
+                  <li>{{ task.getDescription }}</li>
+                {% endfor %}
+            </ul>
+          {% endif %}
 
-  <form action = '/tasks' method='post'>
-    <label for='description'>Task Description</label>
-    <input id='description' name='description' type='text'>
+          <form action = '/tasks' method='post'>
+            <label for='description'>Task Description</label>
+            <input id='description' name='description' type='text'>
 
-    <button type='submit'>Add task</button>
-  </form>
-
-
-  <form action='/delete_tasks' method='post'>
-    <button type='submit'>Delete it all!</button>
-  </form>
+            <button type='submit' class="btn btn-success">Add task</button>
+          </form>
 
 
-</body>
+          <form action='/delete_tasks' method='post'>
+            <button type='submit' class="btn btn-danger">Delete it all!</button>
+          </form>
+
+        </div>
+    </body>
 </html>
