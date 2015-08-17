@@ -1,5 +1,5 @@
 <?php
-    
+
 
     class Task
     {
@@ -23,10 +23,10 @@
       return $this->description;
     }
 
-    //calls a save method
+    //Calls a save method
     function save()
     {
-      array_push($_SESSION['list_of_tasks'], $this);
+      $GLOBALS['DB']->exec("INSERT INTO tasks (description) VALUES ('{$this->getDescription()}');");
     }
 
     //Getter - Static method
