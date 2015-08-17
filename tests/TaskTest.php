@@ -1,5 +1,8 @@
 <?php
-
+    /**
+    * @backupGlobals disabled
+    * @backupStaticAttributes disabled
+    */
 
     require_once "src/Task.php";
 
@@ -48,6 +51,40 @@
 
             //Assert
             $this->assertEquals([$test_task, $test_task2], $result);
+        }
+
+        function test_getId()
+        {
+            //Arrange
+            $description = "Wash the Dog";
+            $id = 1;
+            $test_Task = new Task($description, $id);
+
+            //Act
+            $result = $test_Task->getId();
+
+            //Assert
+            $this->assertEquals(1, $result);
+        }
+
+        function test_find()
+        {
+            //Arrange
+            $description = "Wash the Casey";
+            $description2 = "Eat the taco";
+
+            $test_Task = new Task($description);
+            $test_Task->save();
+
+            $test_Task2 = new Task($description2);
+            $test_Task2->save();
+
+            //Act
+            $id = $test_Task->getId();
+            $result = Task::find($id);
+
+            //Assert
+            $this->assertEquals($test_Task, $result);
         }
 
     }
